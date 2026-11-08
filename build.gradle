@@ -1,0 +1,46 @@
+plugins {
+    id 'fabric-loom' version '1.14.10'
+}
+
+version = project.mod_version
+base { archivesName = project.archives_base_name }
+
+repositories {
+    maven { url = 'https://maven.fabricmc.net/' }
+    mavenCentral()
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+}
+
+
+
+def fontsDir = file('fonts'); fontsDir.mkdirs()
+def bakedRoot = layout.buildDirectory.dir('generated/baked').get().asFile
+def bakedOut  = new File(bakedRoot, "assets/${project.mod_id}/fonts")
+
+tasks.register('bakeFonts', Exec) {
+    inputs.dir(fontsDir)
+    inputs.file('tools/MsdfBaker.java')
+    outputs.dir(bakedOut)
+    commandLine "${System.getProperty('java.home')}/bin/java", '-Djava.awt.headless=true',
+            'tools/MsdfBaker.java', fontsDir.absolutePath, bakedOut.absolutePath
+}
+
+sourceSets.main.resources.srcDir bakedRoot
+
+processResources {
+    dependsOn 'bakeFonts'
+    inputs.property 'version', project.version
+    filesMatching('fabric.mod.json') { expand 'version': project.version }
+}
+
+tasks.withType(JavaCompile).configureEach { options.release = 21 }
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}

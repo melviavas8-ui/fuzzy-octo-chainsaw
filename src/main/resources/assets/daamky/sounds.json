@@ -1,0 +1,12 @@
+{
+  "module.enable":  { "sounds": ["daamky:module/module_enable"] },
+  "module.disable": { "sounds": ["daamky:module/module_disable"] },
+  "notification":   { "sounds": ["daamky:notifications/notification"] },
+  "hit.bonk":   { "sounds": ["daamky:hitsounds/bonk"] },
+  "hit.marker": { "sounds": ["daamky:hitsounds/marker"] },
+  "hit.moan1":  { "sounds": ["daamky:hitsounds/moan_1"] },
+  "hit.moan2":  { "sounds": ["daamky:hitsounds/moan_2"] },
+  "hit.moan3":  { "sounds": ["daamky:hitsounds/moan_3"] },
+  "hit.moan4":  { "sounds": ["daamky:hitsounds/moan_4"] },
+  "hit.uwu":    { "sounds": ["daamky:hitsounds/uwu"] }
+}
